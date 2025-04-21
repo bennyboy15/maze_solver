@@ -1,5 +1,30 @@
 from tkinter import Tk, BOTH, Canvas
 
+class Cell:
+    def __init__(self, lw,rw,tw,bw, x1,y1,x2,y2, window):
+        self.left_wall = lw
+        self.right_wall = rw
+        self.top_wall = tw
+        self.bottom_wall = bw
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.window = window
+
+    def draw(self):
+        if self.left_wall:
+            self.window.draw_line(Line(Point(self.x1, self.y1), Point(self.x1, self.y2)), "black")
+
+        if self.right_wall:
+            self.window.draw_line(Line(Point(self.x2, self.y1), Point(self.x2, self.y2)), "black")
+        
+        if self.top_wall:
+            self.window.draw_line(Line(Point(self.x1, self.y1), Point(self.x2, self.y1)), "black")
+
+        if self.bottom_wall:
+            self.window.draw_line(Line(Point(self.x1, self.y2), Point(self.x2, self.y2)), "black")
+
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -47,7 +72,8 @@ class Window:
 
 def main():
     win = Window(800,600)
-    win.draw_line(Line(Point(0,0), Point(25,25)), "black")
+    cell = Cell(False, True, True, False, 10,10,50,50,win)
+    cell.draw()
     win.wait_for_close()
 
 if __name__ == "__main__":
