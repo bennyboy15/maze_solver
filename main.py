@@ -25,6 +25,25 @@ class Cell:
         if self.bottom_wall:
             self.window.draw_line(Line(Point(self.x1, self.y2), Point(self.x2, self.y2)), "black")
 
+    def draw_move(self, to_cell, undo=False):
+        if undo == False:
+            self.window.draw_line(
+                Line(
+                    Point((self.x1 + (self.x2-self.x1)/2), (self.y1 + (self.y2-self.y1)/2)), 
+                    Point((to_cell.x1 + (to_cell.x2-to_cell.x1)/2), (to_cell.y1 + (to_cell.y2-to_cell.y1)/2))
+                    ),
+                    "red"
+                )
+        else:
+            self.window.draw_line(
+                Line(
+                    Point((self.x1 + (self.x2-self.x1)/2), (self.y1 + (self.y2-self.y1)/2)), 
+                    Point((to_cell.x1 + (to_cell.x2-to_cell.x1)/2), (to_cell.y1 + (to_cell.y2-to_cell.y1)/2))
+                    ),
+                    "gray"
+                )
+
+
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -69,11 +88,13 @@ class Window:
     def close(self):
         self.is_running = False
 
-
 def main():
     win = Window(800,600)
-    cell = Cell(False, True, True, False, 10,10,50,50,win)
+    cell = Cell(True, False, True, True, 10,10,50,50,win)
     cell.draw()
+    cell2 = Cell(False, True, True, False, 50,10,90,50,win)
+    cell2.draw()
+    cell.draw_move(cell2, False)
     win.wait_for_close()
 
 if __name__ == "__main__":
